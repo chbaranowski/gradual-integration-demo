@@ -1,24 +1,25 @@
 package basar;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import javax.inject.Inject;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import basar.common.PriceUtils;
 import basar.data.Position;
+import basar.data.PositionRepository;
 import basar.ui.CartResource;
 import basar.ui.ShoppingCart;
 import basar.ui.ShoppingController;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes=BasarContext.class)
+@ContextConfiguration(classes=BasarSpyContext.class)
 public class ShoppingControllerTest {
 
     @Inject
@@ -26,11 +27,19 @@ public class ShoppingControllerTest {
     
     @Inject
     ShoppingCart shoppingCart;
+    
+    @Inject
+    PositionRepository spyPositionRepository;
         
     @Before
     public void setup() {
         // 1.) Setup
         shoppingCart.clear();
+    }
+    
+    public void cleanup() {
+        // 4.) cleanup
+        reset(spyPositionRepository);
     }
     
     @Test
@@ -49,13 +58,10 @@ public class ShoppingControllerTest {
         shoppingController.addItemToCart(resource);
         
         // 3.) Verify
-        assertEquals(PriceUtils.formatPriceToLong(price), shoppingCart.sum());        
-        Position position = shoppingCart.getPositions().iterator().next();
-        assertEquals(PriceUtils.formatPriceToLong(price), position.getPrice());
-        assertEquals(description, position.getDescription());
-        // Finds a integration bug, but not the location.
-        assertNotNull("each position should have a seller", position.getSeller());
-        assertEquals(basarNumber, position.getSeller().getBasarNumber());
+        ArgumentCaptor<Position> positionCaptor = ArgumentCaptor.forClass(Position.class);
+        verify(spyPositionRepository).save(positionCaptor.capture());
+        // Test finds a integration bug and the location.
+        assertNotNull("each position should have a seller", positionCaptor.getValue().getSeller());
     }
 
 }
