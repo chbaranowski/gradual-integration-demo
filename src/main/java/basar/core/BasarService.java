@@ -1,7 +1,5 @@
 package basar.core;
 
-import java.util.Date;
-
 import javax.inject.Inject;
 
 import basar.data.Position;
@@ -26,15 +24,6 @@ public class BasarService implements Basar {
 		position.setSeller(seller);
 		position.setPurchased(false);
 		return positionRepository.save(position);
-	}
-
-	@Override
-	public void buy(Iterable<Position> positions) {
-		for (Position position : positions) {
-			position.setPurchased(true);
-			position.setTimeOfPurchase(new Date());
-		}
-		positionRepository.save(positions);
 	}
 
 }
