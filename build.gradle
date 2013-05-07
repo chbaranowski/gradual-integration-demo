@@ -17,10 +17,8 @@ dependencies {
 	testCompile "junit:junit:4.+"
 	testCompile "org.mockito:mockito-all:1.9.5"
 	testCompile "org.easytesting:fest-assert:1.4"
-	
 }
 
-task copyToLib(type: Copy) {
-	into "libs"
-	from configurations.testRuntime
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.6'
 }
