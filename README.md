@@ -2,8 +2,8 @@
 
 The project contains a demo for:
  - bing bang integration
- - top down integration
- - bottom up integration
+ - top-down integration
+ - bottom-up integration
  
 The three demos can be found in three different branches.
 
