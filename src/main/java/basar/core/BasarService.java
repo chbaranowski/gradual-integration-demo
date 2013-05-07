@@ -1,7 +1,5 @@
 package basar.core;
 
-import java.util.Date;
-
 import javax.inject.Inject;
 
 import basar.data.Position;
