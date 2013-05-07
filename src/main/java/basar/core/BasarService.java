@@ -27,14 +27,5 @@ public class BasarService implements Basar {
 		position.setPurchased(false);
 		return positionRepository.save(position);
 	}
-
-	@Override
-	public void buy(Iterable<Position> positions) {
-		for (Position position : positions) {
-			position.setPurchased(true);
-			position.setTimeOfPurchase(new Date());
-		}
-		positionRepository.save(positions);
-	}
-
+	
 }

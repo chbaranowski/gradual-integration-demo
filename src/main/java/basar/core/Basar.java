@@ -6,6 +6,4 @@ public interface Basar {
 
 	Position createPosition(String basarNumber, Long price, String description);
 
-	void buy(Iterable<Position> positions);
-
 }
