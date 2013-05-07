@@ -1,0 +1,26 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+ext.springVersion   = "3.2.2.RELEASE"
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	compile "org.springframework:spring-context:$springVersion"
+	compile "javax.inject:javax.inject:1"
+    
+	runtime "org.slf4j:slf4j-log4j12:1.6.6"
+	
+	testCompile "org.springframework:spring-test:$springVersion"
+	testCompile "junit:junit:4.+"
+	testCompile "org.mockito:mockito-all:1.9.5"
+	testCompile "org.easytesting:fest-assert:1.4"
+	
+}
+
+task copyToLib(type: Copy) {
+	into "libs"
+	from configurations.testRuntime
+}
